@@ -1,9 +1,7 @@
-from illallangi.data.residential.views.residence import (
-    residence_html,
-    residences_html,
-)
+from illallangi.data.residential.views.residence_detail import residence_detail
+from illallangi.data.residential.views.residence_list import residence_list
 
 __all__ = [
-    "residence_html",
-    "residences_html",
+    "residence_detail",
+    "residence_list",
 ]

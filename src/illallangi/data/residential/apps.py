@@ -16,7 +16,7 @@ def add_model(
         model="illallangi.data.residential.models.Residence",
         plural="Residences",
         singular="Residence",
-        url="residences_html",
+        url="residence_list",
     )
 
     Synchronize.objects.update_or_create(
