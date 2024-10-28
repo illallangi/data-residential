@@ -8,20 +8,35 @@ from illallangi.data.residential.models import Residence
 
 
 @require_GET
-def residences_html(
+def residence_list(
     request: HttpRequest,
-    **_: dict,
 ) -> render:
     objects = Residence.objects.all()
+    breadcrumbs = []
+
+    if not False:
+        breadcrumbs.append(
+            {
+                "title": "Residences",
+                "url": reverse(
+                    "residence_list",
+                ),
+            },
+        )
 
     if objects.count() == 1:
         return redirect(
-            objects.first().get_absolute_url(),
+            reverse(
+                "residence_detail",
+                kwargs={
+                    "slug": objects.first().slug,
+                },
+            ),
         )
 
     return render(
         request,
-        "residential/residences.html",
+        "residential/residence_list.html",
         {
             "base_template": ("partial.html" if request.htmx else "base.html"),
             "page": Paginator(
@@ -33,22 +48,13 @@ def residences_html(
             ).get_page(
                 request.GET.get("page", 1),
             ),
-            "breadcrumbs": [
-                {
-                    "title": "Residences",
-                    "url": reverse(
-                        "residences_html",
-                    ),
-                },
-            ],
+            "breadcrumbs": breadcrumbs,
             "links": [
                 {
                     "rel": "alternate",
                     "type": "text/html",
                     "href": request.build_absolute_uri(
-                        reverse(
-                            "residences_html",
-                        ),
+                        request.get_full_path(),
                     ),
                 },
             ],

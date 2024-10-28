@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 from django.conf import settings
-from django.db.models.signals import post_migrate
 
+from illallangi.django.data.signals import ready_for_models
 from illallangi.rdf.adapters import ResidentialAdapter as RDFAdapter
 
 
@@ -10,7 +10,7 @@ def add_model(
 ) -> None:
     from illallangi.django.data.models import Model, Synchronize
 
-    Model.objects.update_or_create(
+    Model.objects.create(
         description="Not just a location on a map, but a place where dreams are nurtured and memories are made.",
         icon="residential/residences.jpg",
         model="illallangi.data.residential.models.Residence",
@@ -19,7 +19,7 @@ def add_model(
         url="residence_list",
     )
 
-    Synchronize.objects.update_or_create(
+    Synchronize.objects.create(
         callable="illallangi.data.residential.apps.synchronize",
     )
 
@@ -31,9 +31,8 @@ class ResidentialHistoryConfig(AppConfig):
     def ready(
         self,
     ) -> None:
-        post_migrate.connect(
+        ready_for_models.connect(
             add_model,
-            sender=self,
         )
 
 

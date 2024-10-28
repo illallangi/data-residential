@@ -7,6 +7,19 @@ from illallangi.data.residential.models.residence import (
 
 
 class Residence(diffsync.DiffSyncModel):
+    _modelname = "Residence"
+    _identifiers = ("label",)
+    _attributes = (
+        "country",
+        "finish",
+        "locality",
+        "open_location_code",
+        "postal_code",
+        "region",
+        "start",
+        "street",
+    )
+
     pk: int
 
     label: str
@@ -14,24 +27,11 @@ class Residence(diffsync.DiffSyncModel):
     country: str
     finish: PartialDate | None
     locality: str
-    olc: str
+    open_location_code: str
     postal_code: str
     region: str
     start: PartialDate | None
     street: str
-
-    _modelname = "Residence"
-    _identifiers = ("label",)
-    _attributes = (
-        "country",
-        "finish",
-        "locality",
-        "olc",
-        "postal_code",
-        "region",
-        "start",
-        "street",
-    )
 
     @classmethod
     def create(
@@ -46,7 +46,7 @@ class Residence(diffsync.DiffSyncModel):
                 "country": attrs["country"],
                 "finish": attrs["finish"],
                 "locality": attrs["locality"],
-                "olc": attrs["olc"],
+                "open_location_code": attrs["open_location_code"],
                 "postal_code": attrs["postal_code"],
                 "region": attrs["region"],
                 "start": attrs["start"],
